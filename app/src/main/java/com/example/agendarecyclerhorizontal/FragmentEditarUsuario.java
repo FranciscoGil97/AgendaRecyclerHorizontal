@@ -1,0 +1,108 @@
+package com.example.agendarecyclerhorizontal;
+
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+
+public class FragmentEditarUsuario extends Fragment implements View.OnClickListener {
+    DatosViewModel model;
+    Usuario usuario;
+    SwipeDetector swipeDetector = new SwipeDetector();
+    FloatingActionButton fab;
+    EditText nombre, apellido, email, telefono;
+    ArrayList<Usuario> usuarios = MainActivity.usuarios;
+    int posUsuario=0;
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.editar_usuario, container, false);
+
+        nombre = view.findViewById(R.id.nombreEditText);
+        apellido = view.findViewById(R.id.apellidoEditText);
+        email = view.findViewById(R.id.emailEditText);
+        telefono = view.findViewById(R.id.telefonoEditText);
+        fab = view.findViewById(R.id.fabGuardar);
+        usuario = new Usuario();
+
+        model = ViewModelProviders.of(requireActivity()).get(DatosViewModel.class);
+        model.getData().observe(getViewLifecycleOwner(), new Observer<Usuario>() {
+            @Override
+            public void onChanged(Usuario u) {
+                if (u != null) {
+                    posUsuario = buscaUsuario(u);
+                    nombre.setText(u.getNombre());
+                    apellido.setText(u.getApellido());
+                    email.setText(u.getEmail());
+                    telefono.setText(u.getTelefono());
+                    usuario.copyTo(u);
+                }
+            }
+        });
+
+        fab.setOnClickListener(this);
+        view.setOnClickListener(this);
+        view.setOnTouchListener(swipeDetector);
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (v.getId() == fab.getId()) {
+            usuario.setNombre(nombre.getText().toString());
+            usuario.setApellido(apellido.getText().toString());
+            usuario.setEmail(email.getText().toString());
+            usuario.setTelefono(telefono.getText().toString());
+
+            model.setData(usuario);
+            FragmentUsuario.listAdapter.notifyDataSetChanged();
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+                getActivity().onBackPressed();
+
+        } else {
+            if (swipeDetector.swipeDetected()) {
+                if (swipeDetector.getAction() == SwipeDetector.Action.LR) {
+                    if (posUsuario > 0) {
+                        posUsuario--;
+                        actualizaVista();
+                    }
+                } else if (swipeDetector.getAction() == SwipeDetector.Action.RL) {
+                    if (posUsuario < usuarios.size() - 1) {
+                        posUsuario++;
+                        actualizaVista();
+                    }
+                }
+            }
+        }
+    }
+
+    private void actualizaVista() {
+        nombre.setText(usuarios.get(posUsuario).getNombre());
+        apellido.setText(usuarios.get(posUsuario).getApellido());
+        email.setText(usuarios.get(posUsuario).getEmail());
+        telefono.setText(usuarios.get(posUsuario).getTelefono());
+    }
+
+    private int buscaUsuario(Usuario u) {
+        for (int i = 0; i <usuarios.size() ; i++)
+            if(usuarios.get(i).getId()==u.getId())
+                return i;
+
+        return -1;
+    }
+}

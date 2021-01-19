@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--app:layout_constraint-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/listaContactosFragment"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/editarContactoFragment"
+        android:layout_width="410dp"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toRightOf="@id/listaContactosFragment"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
