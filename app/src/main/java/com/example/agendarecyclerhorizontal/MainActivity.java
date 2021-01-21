@@ -26,19 +26,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
         setContentView(R.layout.activity_main);
         Usuario.getSamples(usuarios);
 
         FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
-            fragmentUsuario=new FragmentUsuario(this);
+
             FT.add(R.id.listaContactosFragment,fragmentUsuario);
             FT.add(R.id.editarContactoFragment,new FragmentEditarUsuario());
         }
         else{
             fragmentUsuario=new FragmentUsuario(this);
-            cargarFragment(fragmentUsuario);
+            FT.replace(R.id.fragmentContainer,fragmentUsuario);
         }
 
         FT.commit();
@@ -58,16 +58,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
         FT.replace(R.id.fragmentContainer,f);
         FT.commit();
-    }
-
-    private boolean intercambiarSeleccion(int posicion) {
-        boolean seleccionado = fragmentUsuario.listAdapter.toggleSelection(posicion);
-        int count = fragmentUsuario.listAdapter.getSelectedItemCount();
-        if (count == 0) fragmentUsuario.actionMode.finish();
-        else {
-            fragmentUsuario.actionMode.setTitle(String.valueOf(count));
-            fragmentUsuario.actionMode.invalidate();
-        }
-        return seleccionado;
     }
 }

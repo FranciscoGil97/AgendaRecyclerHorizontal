@@ -69,13 +69,14 @@ public class ListAdapter extends SeleccionableAdapter {
     void eliminarItemsSeleccionados(List<Integer> items) {
         Collections.sort(items);
         Collections.reverse(items);
-        ArrayList<Usuario> aux = new ArrayList<>(mData);
+
         for (int i : items) mData.remove(i);
 
-//        mData = new ArrayList<>(aux);
 
         for (int i : items) notifyItemRemoved(i);
     }
+
+
 
     void desactivarSeleccion() {
         for (Usuario i : mData) i.setSeleccionado(false);

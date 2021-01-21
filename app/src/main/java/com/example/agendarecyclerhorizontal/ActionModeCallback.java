@@ -1,5 +1,6 @@
 package com.example.agendarecyclerhorizontal;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,21 +29,26 @@ class ActionModeCallback implements ActionMode.Callback {
         switch (item.getItemId()) {
             case R.id.eliminar:
 
-                mainActivity.fragmentUsuario.listAdapter.eliminarItemsSeleccionados(mainActivity.fragmentUsuario.listAdapter.getSelectedItems());
+                FragmentUsuario.listAdapter.eliminarItemsSeleccionados(FragmentUsuario.listAdapter.getSelectedItems());
                 mode.finish();
+                mode=null;
                 return true;
             case R.id.cancelar:
-                mainActivity.fragmentUsuario.listAdapter.desactivarSeleccion();
+                FragmentUsuario.listAdapter.desactivarSeleccion();
                 mode.finish();
+                mode=null;
+                Log.e("CANCELAR",(mode==null)+"");
                 return true;
         }
+        mode=null;
         return false;
     }
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mainActivity.fragmentUsuario.listAdapter.clearSelection();
-        mainActivity.fragmentUsuario.listAdapter.desactivarSeleccion();
-        mainActivity.fragmentUsuario.actionMode = null;
+        FragmentUsuario.listAdapter.clearSelection();
+        FragmentUsuario.listAdapter.desactivarSeleccion();
+        MainActivity.fragmentUsuario.actionMode = null;
+        mode=null;
     }
 }

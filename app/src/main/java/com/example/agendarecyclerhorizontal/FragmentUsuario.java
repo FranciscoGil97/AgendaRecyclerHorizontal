@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +99,10 @@ public class FragmentUsuario extends Fragment {
 
             @Override
             public void onItemClick(final int position, View v) {
-                if (actionMode != null) {
+
+                int count = listAdapter.getSelectedItemCount();
+
+                if (count>0 && actionMode != null) {
                     if (intercambiarSeleccion(position))
                         usuarios.get(position).setSeleccionado(true);
                     else usuarios.get(position).setSeleccionado(false);
@@ -151,7 +155,6 @@ public class FragmentUsuario extends Fragment {
                     } else {
                         model.setData(usuarios.get(position));
                         posicionUsuario = position;
-                        listAdapter.setData(usuarios);
                         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             fragmentTransaction = fragmentManager.beginTransaction();
@@ -173,10 +176,13 @@ public class FragmentUsuario extends Fragment {
         if (count == 0) {
             actionMode.finish();
             actionMode=null;
+            actionMode=null;
         } else {
             actionMode.setTitle(String.valueOf(count));
             actionMode.invalidate();
         }
+
+        Log.e("SELECCIONADOS",count+"");
         return seleccionado;
     }
 
