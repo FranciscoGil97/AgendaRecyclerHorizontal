@@ -1,13 +1,13 @@
-package com.example.smultiple;
+package com.example.agendarecyclerhorizontal;
 
 import android.util.SparseBooleanArray;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-abstract class SeleccionableAdapter extends RecyclerView.Adapter {
+abstract class SeleccionableAdapter extends RecyclerView.Adapter<ListAdapter.Holder> {
     private SparseBooleanArray selectedItems;
 
     public SeleccionableAdapter() {

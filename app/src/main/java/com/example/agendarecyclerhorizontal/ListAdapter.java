@@ -12,9 +12,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.Holder> {
+public class ListAdapter extends SeleccionableAdapter {
 
     private List<Usuario> mData;
     private LayoutInflater mInflater;
@@ -34,6 +35,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.Holder> {
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    public void setData(List<Usuario> usuarios) {
+        mData = usuarios;
     }
 
     @Override
@@ -61,16 +66,33 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.Holder> {
         this.listenerTouch = listenerTouch;
     }
 
+    void eliminarItemsSeleccionados(List<Integer> items) {
+        Collections.sort(items);
+        Collections.reverse(items);
+        ArrayList<Usuario> aux = new ArrayList<>(mData);
+        for (int i : items) mData.remove(i);
+
+//        mData = new ArrayList<>(aux);
+
+        for (int i : items) notifyItemRemoved(i);
+    }
+
+    void desactivarSeleccion() {
+        for (Usuario i : mData) i.setSeleccionado(false);
+    }
+
     public class Holder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener, View.OnTouchListener {
         TextView nombre, apellido, email, telefono;
+        View view;
 
         Holder(View itemView) {
             super(itemView);
-
+            view = itemView;
             nombre = itemView.findViewById(R.id.nombreTextView);
             apellido = itemView.findViewById(R.id.apellidoTextView);
             email = itemView.findViewById(R.id.emailTextView);
             telefono = itemView.findViewById(R.id.numeroTelefonoTextView);
+
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
             ((ImageButton) itemView.findViewById(R.id.imageButton)).setOnClickListener(this);
@@ -78,6 +100,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.Holder> {
         }
 
         void bindData(final Usuario item, int i) {
+            if (item.isSeleccionado())
+                view.setBackgroundColor(context.getResources().getColor(R.color.oscuro, null));
+            else view.setBackgroundColor(context.getResources().getColor(R.color.claro, null));
             nombre.setText(item.getNombre());
             apellido.setText(item.getApellido());
             email.setText(item.getEmail());

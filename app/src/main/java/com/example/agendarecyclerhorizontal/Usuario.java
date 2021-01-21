@@ -10,6 +10,7 @@ public class Usuario {
     private String apellido;
     private String email;
     private String telefono;
+    private boolean seleccionado;
 
     public Usuario() {
         id = -1;
@@ -17,6 +18,7 @@ public class Usuario {
         apellido = "";
         telefono = "";
         email = "";
+        seleccionado=false;
     }
 
 
@@ -26,6 +28,7 @@ public class Usuario {
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
+        seleccionado=false;
     }
 
     private Usuario(int id, String nombre, String apellido, String telefono, String email) {
@@ -34,6 +37,7 @@ public class Usuario {
         this.apellido = apellido;
         this.telefono = telefono;
         this.email = email;
+        seleccionado=false;
     }
 
     public int getId() {
@@ -54,6 +58,14 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public boolean isSeleccionado() {
+        return seleccionado;
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
     }
 
     public void setApellido(String apellido) {
