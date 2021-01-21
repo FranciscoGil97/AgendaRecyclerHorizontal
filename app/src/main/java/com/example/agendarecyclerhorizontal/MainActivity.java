@@ -26,15 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(null);
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Usuario.getSamples(usuarios);
 
         FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
-
+            fragmentUsuario=new FragmentUsuario(this);
             FT.add(R.id.listaContactosFragment,fragmentUsuario);
             FT.add(R.id.editarContactoFragment,new FragmentEditarUsuario());
+
         }
         else{
             fragmentUsuario=new FragmentUsuario(this);
