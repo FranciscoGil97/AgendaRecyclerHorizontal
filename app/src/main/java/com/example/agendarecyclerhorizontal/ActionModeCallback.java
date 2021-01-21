@@ -27,6 +27,7 @@ class ActionModeCallback implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.eliminar:
+
                 mainActivity.fragmentUsuario.listAdapter.eliminarItemsSeleccionados(mainActivity.fragmentUsuario.listAdapter.getSelectedItems());
                 mode.finish();
                 return true;
