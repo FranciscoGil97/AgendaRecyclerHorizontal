@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/eliminar"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Eliminar"
+        tools:showAsAction="ifRoom" />
+    <item android:id="@+id/cancelar"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="Cancelar"
+        tools:showAsAction="ifRoom" />
+</menu>
