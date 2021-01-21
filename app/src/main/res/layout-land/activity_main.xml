@@ -31,13 +31,15 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/listaContactosFragment"
         android:layout_width="320dp"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/coordinator"/>
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/editarContactoFragment"
         android:layout_width="410dp"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintLeft_toRightOf="@id/listaContactosFragment"
         app:layout_constraintTop_toBottomOf="@id/coordinator"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -36,6 +38,7 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
         email = view.findViewById(R.id.emailEditText);
         telefono = view.findViewById(R.id.telefonoEditText);
         fab = view.findViewById(R.id.fabGuardar);
+
         usuario = new Usuario();
 
         model = ViewModelProviders.of(requireActivity()).get(DatosViewModel.class);
