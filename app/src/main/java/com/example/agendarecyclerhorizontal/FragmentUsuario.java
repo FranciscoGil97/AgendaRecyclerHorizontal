@@ -8,15 +8,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.view.ActionMode;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -62,6 +68,28 @@ public class FragmentUsuario extends Fragment {
         });
         actionModeCallback = new ActionModeCallback(mainActivity);
 
+        NavigationView navigationView=view.findViewById(R.id.navigationView);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                String mensaje="";
+                switch (item.getItemId()){
+                    case R.id.opcion1:
+                        mensaje="opcion1";
+                        break;
+                    case R.id.opcion2:
+                        mensaje="opcion2";
+                        break;
+                    case R.id.opcion3:
+                        mensaje="opcion3";
+                        break;
+                }
+                Toast.makeText(mainActivity, mensaje, Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+        });
 
         listAdapter = new ListAdapter(usuarios, view.getContext());
         recyclerView = view.findViewById(R.id.listRecyclerView);

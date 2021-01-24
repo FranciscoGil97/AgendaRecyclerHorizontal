@@ -7,28 +7,29 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     static ArrayList<Usuario> usuarios=new ArrayList<>();
     public static FragmentUsuario fragmentUsuario;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
-
         setContentView(R.layout.activity_main);
+
+
         Usuario.getSamples(usuarios);
 
         FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
             FT.add(R.id.listaContactosFragment,fragmentUsuario);
             FT.add(R.id.editarContactoFragment,new FragmentEditarUsuario());
-
         }
         else{
             fragmentUsuario=new FragmentUsuario(this);
@@ -62,4 +62,6 @@ public class MainActivity extends AppCompatActivity {
         FT.replace(R.id.fragmentContainer,f);
         FT.commit();
     }
+
+
 }
