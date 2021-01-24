@@ -4,7 +4,7 @@
     <item
         android:id="@+id/opcion1"
         android:icon="@android:drawable/btn_star"
-        android:title="opcion 1" />
+        android:title="Elimina seleccionados" />
 
     <item
         android:id="@+id/opcion2"

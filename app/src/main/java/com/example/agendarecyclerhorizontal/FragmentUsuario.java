@@ -45,7 +45,7 @@ public class FragmentUsuario extends Fragment {
     public ArrayList<Usuario> usuarios;
     public int posicionUsuario = 0;
     ActionModeCallback actionModeCallback;
-    ActionMode actionMode;
+    public static ActionMode actionMode;
     MainActivity mainActivity;
 
     public FragmentUsuario(MainActivity mainActivity) {
@@ -68,28 +68,8 @@ public class FragmentUsuario extends Fragment {
         });
         actionModeCallback = new ActionModeCallback(mainActivity);
 
-        NavigationView navigationView=view.findViewById(R.id.navigationView);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                String mensaje="";
-                switch (item.getItemId()){
-                    case R.id.opcion1:
-                        mensaje="opcion1";
-                        break;
-                    case R.id.opcion2:
-                        mensaje="opcion2";
-                        break;
-                    case R.id.opcion3:
-                        mensaje="opcion3";
-                        break;
-                }
-                Toast.makeText(mainActivity, mensaje, Toast.LENGTH_SHORT).show();
-
-                return true;
-            }
-        });
+        quitaSelecciones();
+        actionMode=null;
 
         listAdapter = new ListAdapter(usuarios, view.getContext());
         recyclerView = view.findViewById(R.id.listRecyclerView);
@@ -98,7 +78,7 @@ public class FragmentUsuario extends Fragment {
         recyclerView.setAdapter(listAdapter);
         swipeDetector = new SwipeDetector();
         listAdapter.setOnItemTouchListener(swipeDetector);
-//
+
         model = ViewModelProviders.of(requireActivity()).get(DatosViewModel.class);
         model.getData().observe(getViewLifecycleOwner(), new Observer<Usuario>() {
             @Override
@@ -112,7 +92,6 @@ public class FragmentUsuario extends Fragment {
                         }
             }
         });
-
         listAdapter.setOnItemClickListener(new ListAdapter.onClickListnerMiInterfaz() {
             @Override
             public void onItemLongClick(final int position, View v) {
@@ -212,6 +191,12 @@ public class FragmentUsuario extends Fragment {
 
         Log.e("SELECCIONADOS",count+"");
         return seleccionado;
+    }
+
+    private void quitaSelecciones(){
+        for(Usuario u: usuarios){
+            u.setSeleccionado(false);
+        }
     }
 
 }

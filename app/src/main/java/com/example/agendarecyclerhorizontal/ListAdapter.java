@@ -80,6 +80,7 @@ public class ListAdapter extends SeleccionableAdapter {
 
     void desactivarSeleccion() {
         for (Usuario i : mData) i.setSeleccionado(false);
+
     }
 
     public class Holder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener, View.OnTouchListener {
