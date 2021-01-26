@@ -21,15 +21,23 @@ public class ListAdapter extends SeleccionableAdapter {
     private LayoutInflater mInflater;
     private Context context;
     private onClickListnerMiInterfaz onclicklistner;
-
     private View.OnTouchListener listenerTouch;
+    private boolean vistaGrid;
 
+    public boolean isVistaGrid() {
+        return vistaGrid;
+    }
 
-    public ListAdapter(ArrayList<Usuario> itemList, Context context) {
+    public void setVistaGrid(boolean vistaGrid) {
+        this.vistaGrid = vistaGrid;
+    }
+
+    public ListAdapter(ArrayList<Usuario> itemList, Context context, boolean vistaGrid) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mData = itemList;
-//        Log.e("ListAdapte",itemList.get(1).getNombre());
+
+        this.vistaGrid=vistaGrid;
     }
 
     @Override
@@ -43,7 +51,11 @@ public class ListAdapter extends SeleccionableAdapter {
 
     @Override
     public ListAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.cardview, parent, false);
+        View view=null;
+        if(vistaGrid){
+            view = mInflater.inflate(R.layout.cardview_grid, parent, false);
+        }else
+            view = mInflater.inflate(R.layout.cardview, parent, false);
         return new ListAdapter.Holder(view);
     }
 

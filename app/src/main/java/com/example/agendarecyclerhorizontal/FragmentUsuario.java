@@ -27,6 +27,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,10 +72,10 @@ public class FragmentUsuario extends Fragment {
         quitaSelecciones();
         actionMode=null;
 
-        listAdapter = new ListAdapter(usuarios, view.getContext());
+        listAdapter = new ListAdapter(usuarios, view.getContext(),false);
         recyclerView = view.findViewById(R.id.listRecyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         recyclerView.setAdapter(listAdapter);
         swipeDetector = new SwipeDetector();
         listAdapter.setOnItemTouchListener(swipeDetector);
