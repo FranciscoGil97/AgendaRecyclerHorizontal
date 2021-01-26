@@ -3,8 +3,11 @@ package com.example.agendarecyclerhorizontal;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.view.ActionMode;
+
+import com.google.android.material.snackbar.Snackbar;
 
 class ActionModeCallback implements ActionMode.Callback {
     private final MainActivity mainActivity;
@@ -28,19 +31,21 @@ class ActionModeCallback implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.eliminar:
-
                 FragmentUsuario.listAdapter.eliminarItemsSeleccionados(FragmentUsuario.listAdapter.getSelectedItems());
                 mode.finish();
-                mode=null;
+                mode = null;
                 return true;
             case R.id.cancelar:
                 FragmentUsuario.listAdapter.desactivarSeleccion();
                 mode.finish();
-                mode=null;
-                Log.e("CANCELAR",(mode==null)+"");
+                mode = null;
+                Log.e("CANCELAR", (mode == null) + "");
                 return true;
+            case R.id.posicionar:
+                Snackbar.make(mainActivity.getWindow().getDecorView().getRootView(), "Está por implementar...", Snackbar.LENGTH_LONG).show();
+                break;
         }
-        mode=null;
+        mode = null;
         return false;
     }
 
@@ -49,6 +54,6 @@ class ActionModeCallback implements ActionMode.Callback {
         FragmentUsuario.listAdapter.clearSelection();
         FragmentUsuario.listAdapter.desactivarSeleccion();
         MainActivity.fragmentUsuario.actionMode = null;
-        mode=null;
+        mode = null;
     }
 }
