@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -22,12 +23,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     static ArrayList<Usuario> usuarios=new ArrayList<>();
     public static FragmentUsuario fragmentUsuario;
+    Button cambiarVista;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         FT.commit();
+        cambiarVista=findViewById(R.id.cambiarVistaBoton);
+        cambiarVista.setOnClickListener(this);
 
     }
 
@@ -88,5 +94,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==findViewById(R.id.cambiarVistaBoton).getId()){
+            FragmentUsuario.listAdapter.setVistaGrid(!FragmentUsuario.listAdapter.isVistaGrid());
+            FragmentUsuario.listAdapter.notifyAll();
+        }
+
     }
 }
