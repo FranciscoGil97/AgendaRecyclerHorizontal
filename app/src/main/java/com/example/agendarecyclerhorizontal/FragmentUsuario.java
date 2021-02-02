@@ -51,9 +51,11 @@ public class FragmentUsuario extends Fragment {
     ActionModeCallback actionModeCallback;
     public static ActionMode actionMode;
     MainActivity mainActivity;
+    boolean vistaGrid;
 
-    public FragmentUsuario(MainActivity mainActivity) {
+    public FragmentUsuario(MainActivity mainActivity, boolean vistaGrid) {
         this.mainActivity = mainActivity;
+        this.vistaGrid=vistaGrid;
     }
 
     @Nullable
@@ -66,7 +68,11 @@ public class FragmentUsuario extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Añadir nuevo usuario", Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentContainer, new FragmentAddUsuario());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         actionModeCallback = new ActionModeCallback(mainActivity);
@@ -74,10 +80,15 @@ public class FragmentUsuario extends Fragment {
         quitaSelecciones();
         actionMode = null;
 
-        listAdapter = new ListAdapter(usuarios, view.getContext(), false);
+        listAdapter = new ListAdapter(usuarios, view.getContext(), vistaGrid);
         recyclerView = view.findViewById(R.id.listRecyclerView);
         recyclerView.setHasFixedSize(true);
+        if(vistaGrid){
+            recyclerView.setLayoutManager(new GridLayoutManager(mainActivity.getApplicationContext(),2));
+        }else
         recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));
+
+
         recyclerView.setAdapter(listAdapter);
         swipeDetector = new SwipeDetector();
         listAdapter.setOnItemTouchListener(swipeDetector);

@@ -38,8 +38,7 @@
                         android:id="@+id/cambiarVistaBoton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@android:drawable/star_on"
-                        />
+                        android:drawableRight="@drawable/menu" />
                 </com.google.android.material.appbar.MaterialToolbar>
 
             </com.google.android.material.appbar.AppBarLayout>

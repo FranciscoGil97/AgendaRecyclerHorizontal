@@ -118,4 +118,18 @@ public class DAOUsuario extends SQLiteOpenHelper {
 
         return db.rawQuery("SELECT * FROM "+Utilidades.TABLE_USUARIOS+" WHERE "+tipo +" <> 0",null);
     }
+
+    public int maxId(){
+        conecta();
+        Cursor cursor=db.rawQuery("SELECT MAX("+Utilidades.CAMPO_ID+") FROM "+Utilidades.TABLE_USUARIOS,null);
+        int idMax=-1;
+        if(cursor.moveToNext()){
+            idMax=cursor.getInt(0);
+        }
+        desconecta();
+        if(idMax==-1)
+            idMax=1;
+
+        return idMax;
+    }
 }

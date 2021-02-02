@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.agendarecyclerhorizontal.utilidades.DAOUsuario;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static FragmentUsuario fragmentUsuario;
     Button cambiarVista;
     public static DAOUsuario daoUsuario;
-
+    boolean vistaGrid=false;
+    FragmentTransaction FT;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(null);
@@ -46,22 +48,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        daoUsuario.inicializaTabla();
         Cursor cursor = daoUsuario.getUsuarios();
-        rellenaArrayList(usuarios, cursor);
-        daoUsuario.desconecta();
-        Log.e("Main", "Hola");
+        rellenaArrayList(cursor);
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        FragmentTransaction FT = getSupportFragmentManager().beginTransaction();
+        FT = getSupportFragmentManager().beginTransaction();
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
-            fragmentUsuario = new FragmentUsuario(this);
+            fragmentUsuario = new FragmentUsuario(this,vistaGrid);
 
             FT.add(R.id.listaContactosFragment, fragmentUsuario);
             FT.add(R.id.editarContactoFragment, new FragmentEditarUsuario());
         } else {
-            fragmentUsuario = new FragmentUsuario(this);
+            fragmentUsuario = new FragmentUsuario(this,vistaGrid);
             FT.replace(R.id.fragmentContainer, fragmentUsuario);
             cambiarVista = findViewById(R.id.cambiarVistaBoton);
             cambiarVista.setOnClickListener(this);
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().findFragmentById(R.id.fragmentContainer) instanceof FragmentEditarUsuario)
-            cargarFragment(new FragmentUsuario(this));
+        if (!(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer) instanceof FragmentUsuario))
+            cargarFragment(new FragmentUsuario(this,vistaGrid));
         else finish();
     }
 
@@ -104,26 +104,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 cursor = daoUsuario.getTipoContacto(Utilidades.CAMPO_AMIGO);
                 break;
         }
-        usuarios=new ArrayList<>();
-        rellenaArrayList(usuarios, cursor);
-        daoUsuario.desconecta();
+        usuarios = new ArrayList<>();
+        rellenaArrayList(cursor);
         FragmentUsuario.listAdapter.setData(usuarios);
         FragmentUsuario.listAdapter.notifyDataSetChanged();
-        FragmentUsuario.usuarios=usuarios;
+        FragmentUsuario.usuarios = usuarios;
         return true;
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == findViewById(R.id.cambiarVistaBoton).getId()) {
-            FragmentUsuario.listAdapter.setVistaGrid(!FragmentUsuario.listAdapter.isVistaGrid());
-            FragmentUsuario.listAdapter.notifyAll();
+            vistaGrid=!vistaGrid;
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentContainer, new FragmentUsuario(this, vistaGrid));
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         }
 
     }
-
-    private void rellenaArrayList(ArrayList<Usuario> usuarios, Cursor cursor) {
-
+    public static void actualizaListaUsuarios(){
+        Cursor cursor = daoUsuario.getUsuarios();
+        rellenaArrayList(cursor);
+    }
+    public static  void rellenaArrayList(Cursor cursor) {
+        usuarios = new ArrayList<>();
         while (cursor.moveToNext()) {
             Usuario u = new Usuario();
             u.setId(cursor.getInt(0));
@@ -138,6 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             usuarios.add(u);
         }
         cursor.close();
-
+        daoUsuario.desconecta();
     }
 }

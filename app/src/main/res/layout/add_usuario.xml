@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <EditText
+        android:id="@+id/nombreEditText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="20dp" />
+
+    <EditText
+        android:id="@+id/apellidoEditText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/nombreEditText"
+        app:layout_constraintLeft_toLeftOf="@id/nombreEditText"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/apellidoEditText"
+        app:layout_constraintLeft_toLeftOf="@id/nombreEditText"
+        android:layout_marginTop="20dp"/>
+    <EditText
+        android:id="@+id/telefonoEditText"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
+        app:layout_constraintLeft_toLeftOf="@id/nombreEditText"
+        android:layout_marginTop="20dp"/>
+
+
+    <TextView
+        android:id="@+id/nombreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre   "
+        android:textColor="@color/black"
+        app:layout_constraintRight_toLeftOf="@id/nombreEditText"
+        app:layout_constraintTop_toTopOf="@id/nombreEditText"
+        app:layout_constraintBottom_toBottomOf="@id/nombreEditText" />
+
+
+    <TextView
+        android:id="@+id/apellidoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apellido"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@id/nombreTextView"
+        app:layout_constraintTop_toTopOf="@id/apellidoEditText"
+        app:layout_constraintBottom_toBottomOf="@id/apellidoEditText" />
+
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@id/nombreTextView"
+        app:layout_constraintTop_toTopOf="@id/emailEditText"
+        app:layout_constraintBottom_toBottomOf="@id/emailEditText" />
+
+    <TextView
+        android:id="@+id/telefonoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Teléfono"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@id/nombreTextView"
+        app:layout_constraintTop_toTopOf="@id/telefonoEditText"
+        app:layout_constraintBottom_toBottomOf="@id/telefonoEditText" />
+
+<LinearLayout
+    android:id="@+id/contenedorCheckBox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@id/telefonoEditText"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    android:layout_margin="25dp">
+    <CheckBox
+        android:id="@+id/familiaCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Familia"
+        android:layout_marginRight="10dp"/>
+    <CheckBox
+        android:id="@+id/trabajoCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trabajo"
+        android:layout_marginRight="10dp"/>
+    <CheckBox
+        android:id="@+id/amigoCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amigo"/>
+</LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addUsuarioButton"
+        android:text="Añadir Usuario"
+        app:layout_constraintTop_toBottomOf="@id/contenedorCheckBox"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
