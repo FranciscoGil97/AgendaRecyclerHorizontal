@@ -15,7 +15,7 @@ public class SwipeDetector implements OnTouchListener
         None // Action not found
     }
 
-    private static final int HORIZONTAL_MIN_DISTANCE = 10; // The minimum
+    private static final int HORIZONTAL_MIN_DISTANCE = 5; // The minimum
     // distance for
     // horizontal swipe
     private static final int VERTICAL_MIN_DISTANCE = 20; // The minimum distance

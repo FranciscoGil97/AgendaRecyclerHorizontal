@@ -20,7 +20,7 @@
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/cabecera">
 
@@ -76,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
+
             <TextView
                 android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
@@ -90,8 +91,28 @@
                 style="@style/EditTextUsuarios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/familiaCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Familia"/>
+                <CheckBox
+                    android:id="@+id/trabajoCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trabajo"/>
+                <CheckBox
+                    android:id="@+id/amigoCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Amigo"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

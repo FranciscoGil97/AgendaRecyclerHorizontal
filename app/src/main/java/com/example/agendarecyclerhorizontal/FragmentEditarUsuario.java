@@ -2,9 +2,11 @@ package com.example.agendarecyclerhorizontal;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
     SwipeDetector swipeDetector = new SwipeDetector();
     FloatingActionButton fab;
     EditText nombre, apellido, email, telefono;
+    CheckBox familia, trabajo, amigo;
     ArrayList<Usuario> usuarios = MainActivity.usuarios;
     int posUsuario=0;
 
@@ -37,6 +40,9 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
         apellido = view.findViewById(R.id.apellidoEditText);
         email = view.findViewById(R.id.emailEditText);
         telefono = view.findViewById(R.id.telefonoEditText);
+        familia = view.findViewById(R.id.familiaCheckBox);
+        trabajo = view.findViewById(R.id.trabajoCheckBox);
+        amigo = view.findViewById(R.id.amigoCheckBox);
         fab = view.findViewById(R.id.fabGuardar);
 
         usuario = new Usuario();
@@ -51,6 +57,9 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
                     apellido.setText(u.getApellido());
                     email.setText(u.getEmail());
                     telefono.setText(u.getTelefono());
+                    familia.setChecked(u.isFamilia());
+                    trabajo.setChecked(u.isFamilia());
+                    amigo.setChecked(u.isAmigo());
                     usuario.copyTo(u);
                 }
             }
@@ -71,14 +80,19 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
             usuario.setApellido(apellido.getText().toString());
             usuario.setEmail(email.getText().toString());
             usuario.setTelefono(telefono.getText().toString());
-
+            usuario.setFamilia(familia.isChecked());
+            Log.e("es familiar",""+familia.isChecked());
+            usuario.setTrabajo(trabajo.isChecked());
+            usuario.setAmigo(amigo.isChecked());
             model.setData(usuario);
-            FragmentUsuario.listAdapter.notifyDataSetChanged();
+            FragmentUsuario.listAdapter.notifyItemChanged(posUsuario);
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
                 getActivity().onBackPressed();
 
         } else {
+            Log.e("swip Editar","se ha dectectado? "+swipeDetector.swipeDetected());
             if (swipeDetector.swipeDetected()) {
+                Log.e("swip Editar","se ha dectectado");
                 if (swipeDetector.getAction() == SwipeDetector.Action.LR) {
                     if (posUsuario > 0) {
                         posUsuario--;
@@ -99,6 +113,9 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
         apellido.setText(usuarios.get(posUsuario).getApellido());
         email.setText(usuarios.get(posUsuario).getEmail());
         telefono.setText(usuarios.get(posUsuario).getTelefono());
+        familia.setChecked(usuarios.get(posUsuario).isFamilia());
+        trabajo.setChecked(usuarios.get(posUsuario).isTrabajo());
+        amigo.setChecked(usuarios.get(posUsuario).isAmigo());
     }
 
     private int buscaUsuario(Usuario u) {

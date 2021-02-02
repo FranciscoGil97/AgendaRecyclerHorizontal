@@ -76,16 +76,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.opcion1:
-                FragmentUsuario.listAdapter.eliminarItemsSeleccionados(FragmentUsuario.listAdapter.getSelectedItems());
-                FragmentUsuario.actionMode.finish();
-                FragmentUsuario.actionMode=null;
+            case R.id.familia:
+                Toast.makeText(this, "familia", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.opcion2:
-                Toast.makeText(this, "opcion2", Toast.LENGTH_SHORT).show();
+            case R.id.trabajo:
+                Toast.makeText(this, "compañeros", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.opcion3:
-                Toast.makeText(this,"opcion3", Toast.LENGTH_SHORT).show();
+            case R.id.amigo:
+                Toast.makeText(this,"amigos", Toast.LENGTH_SHORT).show();
                 break;
         }
 

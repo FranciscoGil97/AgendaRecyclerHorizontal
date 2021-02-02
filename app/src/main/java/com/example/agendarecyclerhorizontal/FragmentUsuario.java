@@ -50,6 +50,7 @@ public class FragmentUsuario extends Fragment {
 
     public FragmentUsuario(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
+        Log.e("Fragment","reinicio");
     }
 
     @Nullable
@@ -183,13 +184,11 @@ public class FragmentUsuario extends Fragment {
         if (count == 0) {
             actionMode.finish();
             actionMode=null;
-            actionMode=null;
         } else {
             actionMode.setTitle(String.valueOf(count));
             actionMode.invalidate();
         }
 
-        Log.e("SELECCIONADOS",count+"");
         return seleccionado;
     }
 

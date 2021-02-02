@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/opcion1"
+        android:id="@+id/familia"
         android:icon="@android:drawable/btn_star"
-        android:title="Elimina seleccionados" />
+        android:title="Mostrar familiares" />
 
     <item
-        android:id="@+id/opcion2"
+        android:id="@+id/trabajo"
         android:icon="@android:drawable/ic_dialog_map"
-        android:title="opcion 2" />
+        android:title="Mostrar compañeros de trabajo" />
     <item
-        android:id="@+id/opcion3"
+        android:id="@+id/amigo"
         android:icon="@android:drawable/star_on"
-        android:title="opcion 3" />
+        android:title="Mostrar amigos" />
 </menu>

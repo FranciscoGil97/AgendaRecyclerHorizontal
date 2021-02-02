@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -72,10 +73,8 @@ public class ListAdapter extends SeleccionableAdapter {
 
         for (int i : items) mData.remove(i);
 
-
         for (int i : items) notifyItemRemoved(i);
     }
-
 
 
     void desactivarSeleccion() {
@@ -109,6 +108,7 @@ public class ListAdapter extends SeleccionableAdapter {
             apellido.setText(item.getApellido());
             email.setText(item.getEmail());
             telefono.setText(item.getTelefono());
+
         }
 
         @Override
