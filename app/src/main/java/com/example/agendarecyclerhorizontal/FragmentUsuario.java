@@ -46,29 +46,20 @@ public class FragmentUsuario extends Fragment {
     RecyclerView recyclerView;
     public static ListAdapter listAdapter;
     SwipeDetector swipeDetector;
-    public static ArrayList<Usuario> usuarios;
+    public static ArrayList<Usuario> usuarios=MainActivity.usuarios;
     public int posicionUsuario = 0;
     ActionModeCallback actionModeCallback;
     public static ActionMode actionMode;
     MainActivity mainActivity;
-    public static DAOUsuario daoUsuario;
 
     public FragmentUsuario(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-        daoUsuario = new DAOUsuario(mainActivity.getApplicationContext(), Utilidades.DATABASE, null, 1);
-//        Log.e("Fragment","reinicio  ");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.usuarios_recycler, container, false);
-
-        usuarios = new ArrayList<>();
-        daoUsuario.inicializaTabla();
-        Cursor cursor = daoUsuario.getUsuarios();
-        rellenaArrayList(usuarios, cursor);
-        daoUsuario.desconecta();
 
         FloatingActionButton fab = view.findViewById(R.id.FAB);
 
@@ -100,7 +91,7 @@ public class FragmentUsuario extends Fragment {
                     for (int i = 0; i < usuarios.size(); i++)
                         if (usuarios.get(i).equals(usuario)) {
                             usuarios.get(i).copyTo(usuario);
-                            daoUsuario.actualizaRegistro(usuario);
+                            mainActivity.daoUsuario.actualizaRegistro(usuario);
                             posicionUsuario = i;
                         }
             }
@@ -209,24 +200,4 @@ public class FragmentUsuario extends Fragment {
             u.setSeleccionado(false);
         }
     }
-
-    private void rellenaArrayList(ArrayList<Usuario> usuarios, Cursor cursor) {
-
-        while (cursor.moveToNext()) {
-            Usuario u = new Usuario();
-            u.setId(cursor.getInt(0));
-            u.setNombre(cursor.getString(1));
-            u.setApellido(cursor.getString(2));
-            u.setEmail(cursor.getString(3));
-            u.setTelefono(cursor.getString(4));
-            u.setFamilia(cursor.getInt(5) > 0);
-            u.setTrabajo(cursor.getInt(6) > 0);
-            u.setAmigo(cursor.getInt(7) > 0);
-
-            usuarios.add(u);
-        }
-        cursor.close();
-
-    }
-
 }

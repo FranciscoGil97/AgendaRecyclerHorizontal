@@ -89,9 +89,7 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
                 getActivity().onBackPressed();
 
         } else {
-            Log.e("swip Editar","se ha dectectado? "+swipeDetector.swipeDetected());
             if (swipeDetector.swipeDetected()) {
-                Log.e("swip Editar","se ha dectectado");
                 if (swipeDetector.getAction() == SwipeDetector.Action.LR) {
                     if (posUsuario > 0) {
                         posUsuario--;

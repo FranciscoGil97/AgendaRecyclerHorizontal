@@ -38,7 +38,7 @@ public class DAOUsuario extends SQLiteOpenHelper {
     public void inicializaTabla() {
         Usuario.getSamples(usuarios);
         conecta();
-//        onUpgrade(db, 1, 1);
+        onUpgrade(db, 1, 1);
         for (Usuario u : usuarios) {
             if (!existeUsuario(u.getId())) {
                 insertaUsuario(u);
@@ -113,5 +113,9 @@ public class DAOUsuario extends SQLiteOpenHelper {
         return existe;
     }
 
+    public Cursor getTipoContacto(String tipo){
+        conecta();
 
+        return db.rawQuery("SELECT * FROM "+Utilidades.TABLE_USUARIOS+" WHERE "+tipo +" <> 0",null);
+    }
 }

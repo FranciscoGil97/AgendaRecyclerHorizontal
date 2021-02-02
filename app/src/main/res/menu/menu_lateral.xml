@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/todos"
+        android:icon="@android:drawable/btn_star"
+        android:title="Mostrar todos" />
+    <item
         android:id="@+id/familia"
         android:icon="@android:drawable/btn_star"
         android:title="Mostrar familiares" />
