@@ -81,7 +81,6 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
             usuario.setEmail(email.getText().toString());
             usuario.setTelefono(telefono.getText().toString());
             usuario.setFamilia(familia.isChecked());
-            Log.e("es familiar",""+familia.isChecked());
             usuario.setTrabajo(trabajo.isChecked());
             usuario.setAmigo(amigo.isChecked());
             model.setData(usuario);
