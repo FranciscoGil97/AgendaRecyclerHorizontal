@@ -28,7 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
-    static ArrayList<Usuario> usuarios=new ArrayList<>();
+//    static ArrayList<Usuario> usuarios=new ArrayList<>();
     public static FragmentUsuario fragmentUsuario;
     Button cambiarVista;
 
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView=findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Usuario.getSamples(usuarios);
+//        Usuario.getSamples(usuarios);
 
         FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else{
             fragmentUsuario=new FragmentUsuario(this);
             FT.replace(R.id.fragmentContainer,fragmentUsuario);
-
+            cambiarVista=findViewById(R.id.cambiarVistaBoton);
+            cambiarVista.setOnClickListener(this);
         }
 
         FT.commit();
-        cambiarVista=findViewById(R.id.cambiarVistaBoton);
-        cambiarVista.setOnClickListener(this);
+
 
     }
 

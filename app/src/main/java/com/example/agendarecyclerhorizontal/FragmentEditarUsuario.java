@@ -29,7 +29,7 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
     FloatingActionButton fab;
     EditText nombre, apellido, email, telefono;
     CheckBox familia, trabajo, amigo;
-    ArrayList<Usuario> usuarios = MainActivity.usuarios;
+    ArrayList<Usuario> usuarios = FragmentUsuario.usuarios;
     int posUsuario=0;
 
     @Override
@@ -58,7 +58,7 @@ public class FragmentEditarUsuario extends Fragment implements View.OnClickListe
                     email.setText(u.getEmail());
                     telefono.setText(u.getTelefono());
                     familia.setChecked(u.isFamilia());
-                    trabajo.setChecked(u.isFamilia());
+                    trabajo.setChecked(u.isTrabajo());
                     amigo.setChecked(u.isAmigo());
                     usuario.copyTo(u);
                 }

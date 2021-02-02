@@ -9,6 +9,12 @@ import androidx.appcompat.view.ActionMode;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static com.example.agendarecyclerhorizontal.FragmentUsuario.listAdapter;
+
 class ActionModeCallback implements ActionMode.Callback {
     private final MainActivity mainActivity;
 
@@ -31,7 +37,15 @@ class ActionModeCallback implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.eliminar:
+                List<Integer> usuariosSeleccionados=FragmentUsuario.listAdapter.getSelectedItems();
+                Collections.sort(usuariosSeleccionados);
+                Collections.reverse(usuariosSeleccionados);
+
+                for (int i : usuariosSeleccionados){
+                    FragmentUsuario.daoUsuario.eliminaRegistro(FragmentUsuario.usuarios.get(i).getId());
+                }
                 FragmentUsuario.listAdapter.eliminarItemsSeleccionados(FragmentUsuario.listAdapter.getSelectedItems());
+
                 mode.finish();
                 mode = null;
                 return true;
@@ -51,8 +65,8 @@ class ActionModeCallback implements ActionMode.Callback {
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        FragmentUsuario.listAdapter.clearSelection();
-        FragmentUsuario.listAdapter.desactivarSeleccion();
+        listAdapter.clearSelection();
+        listAdapter.desactivarSeleccion();
         MainActivity.fragmentUsuario.actionMode = null;
         mode = null;
     }

@@ -4,6 +4,7 @@ package com.example.agendarecyclerhorizontal;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.agendarecyclerhorizontal.utilidades.DAOUsuario;
+import com.example.agendarecyclerhorizontal.utilidades.Utilidades;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,15 +46,17 @@ public class FragmentUsuario extends Fragment {
     RecyclerView recyclerView;
     public static ListAdapter listAdapter;
     SwipeDetector swipeDetector;
-    public ArrayList<Usuario> usuarios;
+    public static ArrayList<Usuario> usuarios;
     public int posicionUsuario = 0;
     ActionModeCallback actionModeCallback;
     public static ActionMode actionMode;
     MainActivity mainActivity;
+    public static DAOUsuario daoUsuario;
 
     public FragmentUsuario(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-        Log.e("Fragment","reinicio  ");
+        daoUsuario = new DAOUsuario(mainActivity.getApplicationContext(), Utilidades.DATABASE, null, 1);
+//        Log.e("Fragment","reinicio  ");
     }
 
     @Nullable
@@ -59,7 +64,12 @@ public class FragmentUsuario extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.usuarios_recycler, container, false);
 
-        usuarios = MainActivity.usuarios;
+        usuarios = new ArrayList<>();
+        daoUsuario.inicializaTabla();
+        Cursor cursor = daoUsuario.getUsuarios();
+        rellenaArrayList(usuarios, cursor);
+        daoUsuario.desconecta();
+
         FloatingActionButton fab = view.findViewById(R.id.FAB);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,12 +81,12 @@ public class FragmentUsuario extends Fragment {
         actionModeCallback = new ActionModeCallback(mainActivity);
 
         quitaSelecciones();
-        actionMode=null;
+        actionMode = null;
 
-        listAdapter = new ListAdapter(usuarios, view.getContext(),false);
+        listAdapter = new ListAdapter(usuarios, view.getContext(), false);
         recyclerView = view.findViewById(R.id.listRecyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));
         recyclerView.setAdapter(listAdapter);
         swipeDetector = new SwipeDetector();
         listAdapter.setOnItemTouchListener(swipeDetector);
@@ -90,6 +100,7 @@ public class FragmentUsuario extends Fragment {
                     for (int i = 0; i < usuarios.size(); i++)
                         if (usuarios.get(i).equals(usuario)) {
                             usuarios.get(i).copyTo(usuario);
+                            daoUsuario.actualizaRegistro(usuario);
                             posicionUsuario = i;
                         }
             }
@@ -111,7 +122,7 @@ public class FragmentUsuario extends Fragment {
 
                 int count = listAdapter.getSelectedItemCount();
 
-                if (count>0 && actionMode != null) {
+                if (count > 0 && actionMode != null) {
                     if (intercambiarSeleccion(position))
                         usuarios.get(position).setSeleccionado(true);
                     else usuarios.get(position).setSeleccionado(false);
@@ -184,7 +195,7 @@ public class FragmentUsuario extends Fragment {
         int count = listAdapter.getSelectedItemCount();
         if (count == 0) {
             actionMode.finish();
-            actionMode=null;
+            actionMode = null;
         } else {
             actionMode.setTitle(String.valueOf(count));
             actionMode.invalidate();
@@ -193,10 +204,29 @@ public class FragmentUsuario extends Fragment {
         return seleccionado;
     }
 
-    private void quitaSelecciones(){
-        for(Usuario u: usuarios){
+    private void quitaSelecciones() {
+        for (Usuario u : usuarios) {
             u.setSeleccionado(false);
         }
+    }
+
+    private void rellenaArrayList(ArrayList<Usuario> usuarios, Cursor cursor) {
+
+        while (cursor.moveToNext()) {
+            Usuario u = new Usuario();
+            u.setId(cursor.getInt(0));
+            u.setNombre(cursor.getString(1));
+            u.setApellido(cursor.getString(2));
+            u.setEmail(cursor.getString(3));
+            u.setTelefono(cursor.getString(4));
+            u.setFamilia(cursor.getInt(5) > 0);
+            u.setTrabajo(cursor.getInt(6) > 0);
+            u.setAmigo(cursor.getInt(7) > 0);
+
+            usuarios.add(u);
+        }
+        cursor.close();
+
     }
 
 }
