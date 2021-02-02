@@ -50,7 +50,7 @@ public class FragmentUsuario extends Fragment {
 
     public FragmentUsuario(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
-        Log.e("Fragment","reinicio");
+        Log.e("Fragment","reinicio  ");
     }
 
     @Nullable
