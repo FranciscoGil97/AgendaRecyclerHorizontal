@@ -5,12 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.example.agendarecyclerhorizontal.R;
 import com.example.agendarecyclerhorizontal.Usuario;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class DAOUsuario extends SQLiteOpenHelper {
@@ -21,7 +27,6 @@ public class DAOUsuario extends SQLiteOpenHelper {
     public DAOUsuario(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
-
     }
 
     @Override
@@ -64,6 +69,7 @@ public class DAOUsuario extends SQLiteOpenHelper {
 
     public void insertaUsuario(Usuario u) {
         conecta();
+
         ContentValues values = new ContentValues();
         values.put(Utilidades.CAMPO_ID, u.getId());
         values.put(Utilidades.CAMPO_NOMBRE, u.getNombre());
@@ -73,6 +79,7 @@ public class DAOUsuario extends SQLiteOpenHelper {
         values.put(Utilidades.CAMPO_FAMILA, u.isFamilia());
         values.put(Utilidades.CAMPO_AMIGO, u.isAmigo());
         values.put(Utilidades.CAMPO_TRABAJO, u.isTrabajo());
+        values.put(Utilidades.CAMPO_IMAGEN, u.getImagen());
 
         db.insert(Utilidades.TABLE_USUARIOS, Utilidades.CAMPO_ID, values);
 
@@ -89,6 +96,7 @@ public class DAOUsuario extends SQLiteOpenHelper {
         values.put(Utilidades.CAMPO_FAMILA, u.isFamilia());
         values.put(Utilidades.CAMPO_AMIGO, u.isAmigo());
         values.put(Utilidades.CAMPO_TRABAJO, u.isTrabajo());
+        values.put(Utilidades.CAMPO_IMAGEN, u.getImagen());
 
         db.update(Utilidades.TABLE_USUARIOS, values, Utilidades.CAMPO_ID + "=" + u.getId(), null);
 

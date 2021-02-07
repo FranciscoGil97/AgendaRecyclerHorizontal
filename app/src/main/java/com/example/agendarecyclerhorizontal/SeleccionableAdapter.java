@@ -14,10 +14,6 @@ abstract class SeleccionableAdapter extends RecyclerView.Adapter<ListAdapter.Hol
         selectedItems = new SparseBooleanArray();
     }
 
-    boolean isSelected(int position) {
-        return getSelectedItems().contains(position);
-    }
-
     boolean toggleSelection(int position) {
         boolean seleccionado;
         if (selectedItems.get(position, false)) {//devuelve el valor boolean de si está true en

@@ -1,13 +1,21 @@
 package com.example.agendarecyclerhorizontal;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,21 +32,15 @@ public class ListAdapter extends SeleccionableAdapter {
     private onClickListnerMiInterfaz onclicklistner;
     private View.OnTouchListener listenerTouch;
     private boolean vistaGrid;
+    private int itemSelected;
 
-    public boolean isVistaGrid() {
-        return vistaGrid;
-    }
-
-    public void setVistaGrid(boolean vistaGrid) {
-        this.vistaGrid = vistaGrid;
-    }
 
     public ListAdapter(ArrayList<Usuario> itemList, Context context, boolean vistaGrid) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mData = itemList;
-
-        this.vistaGrid=vistaGrid;
+        itemSelected = 0;
+        this.vistaGrid = vistaGrid;
     }
 
     @Override
@@ -52,10 +54,10 @@ public class ListAdapter extends SeleccionableAdapter {
 
     @Override
     public ListAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=null;
-        if(vistaGrid){
+        View view = null;
+        if (vistaGrid) {
             view = mInflater.inflate(R.layout.cardview_grid, parent, false);
-        }else
+        } else
             view = mInflater.inflate(R.layout.cardview, parent, false);
         return new ListAdapter.Holder(view);
     }
@@ -84,19 +86,34 @@ public class ListAdapter extends SeleccionableAdapter {
         Collections.reverse(items);
 
         for (int i : items) mData.remove(i);
-
         for (int i : items) notifyItemRemoved(i);
     }
 
-
     void desactivarSeleccion() {
         for (Usuario i : mData) i.setSeleccionado(false);
-
     }
 
-    public class Holder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener, View.OnTouchListener {
+    public boolean isVistaGrid() {
+        return vistaGrid;
+    }
+
+    public void setVistaGrid(boolean vistaGrid) {
+        this.vistaGrid = vistaGrid;
+    }
+
+    public int getItemSelected() {
+        return itemSelected;
+    }
+
+    public void setItemSelected(int itemSelected) {
+        this.itemSelected = itemSelected;
+    }
+
+    public class Holder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener, View.OnTouchListener, View.OnCreateContextMenuListener {
         TextView nombre, apellido, email, telefono;
         View view;
+        public ImageView imagenContacto;
+
 
         Holder(View itemView) {
             super(itemView);
@@ -105,11 +122,17 @@ public class ListAdapter extends SeleccionableAdapter {
             apellido = itemView.findViewById(R.id.apellidoTextView);
             email = itemView.findViewById(R.id.emailTextView);
             telefono = itemView.findViewById(R.id.numeroTelefonoTextView);
+            imagenContacto = itemView.findViewById(R.id.imageButton);
 
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
-            ((ImageButton) itemView.findViewById(R.id.imageButton)).setOnClickListener(this);
+            ((ImageButton) itemView.findViewById(R.id.imageButton)).setOnCreateContextMenuListener(this);
             itemView.setOnTouchListener(this);
+        }
+
+        public void setImagen(Bitmap imagen) {
+            imagenContacto.setImageBitmap(imagen);
+
         }
 
         void bindData(final Usuario item, int i) {
@@ -120,27 +143,25 @@ public class ListAdapter extends SeleccionableAdapter {
             apellido.setText(item.getApellido());
             email.setText(item.getEmail());
             telefono.setText(item.getTelefono());
+            byte[] imagen=item.getImagen();
+            if(imagen.length>0)
+                imagenContacto.setImageBitmap(BitmapFactory.decodeByteArray(imagen, 0, imagen.length));
+            else
+                imagenContacto.setImageDrawable(itemView.getResources().getDrawable(R.drawable.icono_contacto));
 
         }
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == itemView.findViewById(R.id.imageButton).getId()) {
-
-                LayoutInflater factory = LayoutInflater.from(context);
-                final View view = factory.inflate(R.layout.imagen_dialogo, null);
-                ((TextView) (view.findViewById(R.id.nombreTextView))).setText(nombre.getText());
-                Dialog dialog = new Dialog(context);
-
-                dialog.setContentView(view);
-                dialog.show();
-            } else if (v.getId() == itemView.getId())
-                onclicklistner.onItemClick(getAdapterPosition(), v);
+            onclicklistner.onItemClick(getAdapterPosition(), v);
+            itemSelected = getAdapterPosition();
         }
+
 
         @Override
         public boolean onLongClick(View v) {
             onclicklistner.onItemLongClick(getAdapterPosition(), v);
+            itemSelected = getAdapterPosition();
             return true;
         }
 
@@ -148,7 +169,15 @@ public class ListAdapter extends SeleccionableAdapter {
         public boolean onTouch(View v, MotionEvent event) {
             if (listenerTouch != null)
                 listenerTouch.onTouch(v, event);
+            itemSelected = getAdapterPosition();
             return false;
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            itemSelected = getAdapterPosition();
+            MenuInflater menuInflater = new MenuInflater(v.getContext());
+            menuInflater.inflate(R.menu.menu_contextual_imagen, menu);
         }
     }
 }

@@ -1,5 +1,10 @@
 package com.example.agendarecyclerhorizontal;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
@@ -14,18 +19,7 @@ public class Usuario {
     private boolean familia;
     private boolean trabajo;
     private boolean amigo;
-
-//    public Usuario(int id, String nombre, String apellido, String email, String telefono) {
-//        this.id = id;
-//        this.nombre = nombre;
-//        this.apellido = apellido;
-//        this.email = email;
-//        this.telefono = telefono;
-//        this.seleccionado = false;
-//        this.familia = false;
-//        this.trabajo = false;
-//        this.amigo = false;
-//    }
+    private byte[] imagen;
 
     public Usuario(int id, String nombre, String apellido, String email, String telefono, boolean seleccionado, boolean familia, boolean trabajo, boolean amigo) {
         this.id = id;
@@ -37,6 +31,7 @@ public class Usuario {
         this.familia = familia;
         this.trabajo = trabajo;
         this.amigo = amigo;
+        imagen=new byte[0];
     }
 
     public Usuario() {
@@ -49,6 +44,14 @@ public class Usuario {
         this.familia = false;
         this.trabajo = false;
         this.amigo = false;
+        imagen=new byte[0];
+    }
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
 
     public boolean isFamilia() {

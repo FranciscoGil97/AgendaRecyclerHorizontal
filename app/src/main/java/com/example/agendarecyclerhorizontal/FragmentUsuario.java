@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -43,10 +47,10 @@ import java.util.ArrayList;
 public class FragmentUsuario extends Fragment {
     static FragmentTransaction fragmentTransaction;
     DatosViewModel model;
-    RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     public static ListAdapter listAdapter;
     SwipeDetector swipeDetector;
-    public static ArrayList<Usuario> usuarios=MainActivity.usuarios;
+    public static ArrayList<Usuario> usuarios = MainActivity.usuarios;
     public int posicionUsuario = 0;
     ActionModeCallback actionModeCallback;
     public static ActionMode actionMode;
@@ -55,7 +59,15 @@ public class FragmentUsuario extends Fragment {
 
     public FragmentUsuario(MainActivity mainActivity, boolean vistaGrid) {
         this.mainActivity = mainActivity;
-        this.vistaGrid=vistaGrid;
+        this.vistaGrid = vistaGrid;
+    }
+    public ListAdapter getListAdapter(){
+        return listAdapter;
+    }
+
+    public void cambiaImagen(Bitmap imagen){
+        View v=recyclerView.getChildAt(1);
+        ((ImageButton)v.findViewById(R.id.imageButton)).setImageBitmap(imagen);
     }
 
     @Nullable
@@ -77,22 +89,21 @@ public class FragmentUsuario extends Fragment {
         });
         actionModeCallback = new ActionModeCallback(mainActivity);
 
-        quitaSelecciones();
         actionMode = null;
 
         listAdapter = new ListAdapter(usuarios, view.getContext(), vistaGrid);
         recyclerView = view.findViewById(R.id.listRecyclerView);
         recyclerView.setHasFixedSize(true);
-        if(vistaGrid){
-            recyclerView.setLayoutManager(new GridLayoutManager(mainActivity.getApplicationContext(),2));
-        }else
-        recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));
+        if (vistaGrid) {
+            recyclerView.setLayoutManager(new GridLayoutManager(mainActivity.getApplicationContext(), 2));
+        } else
+            recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity.getApplicationContext()));
 
 
         recyclerView.setAdapter(listAdapter);
         swipeDetector = new SwipeDetector();
         listAdapter.setOnItemTouchListener(swipeDetector);
-
+        listAdapter.desactivarSeleccion();
         model = ViewModelProviders.of(requireActivity()).get(DatosViewModel.class);
         model.getData().observe(getViewLifecycleOwner(), new Observer<Usuario>() {
             @Override
@@ -110,26 +121,19 @@ public class FragmentUsuario extends Fragment {
         listAdapter.setOnItemClickListener(new ListAdapter.onClickListnerMiInterfaz() {
             @Override
             public void onItemLongClick(final int position, View v) {
-
-                if (actionMode == null) {
+                if (actionMode == null)
                     actionMode = mainActivity.startSupportActionMode(actionModeCallback);
-                }
-                if (intercambiarSeleccion(position))
-                    usuarios.get(position).setSeleccionado(true);
-                else usuarios.get(position).setSeleccionado(false);
+
+                usuarios.get(position).setSeleccionado(intercambiarSeleccion(position));
             }
 
             @Override
             public void onItemClick(final int position, View v) {
-
                 int count = listAdapter.getSelectedItemCount();
 
                 if (count > 0 && actionMode != null) {
-                    if (intercambiarSeleccion(position))
-                        usuarios.get(position).setSeleccionado(true);
-                    else usuarios.get(position).setSeleccionado(false);
+                    usuarios.get(position).setSeleccionado(intercambiarSeleccion(position));
                 } else {
-
                     if (swipeDetector.swipeDetected()) {
                         if (swipeDetector.getAction() == SwipeDetector.Action.LR) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -206,9 +210,4 @@ public class FragmentUsuario extends Fragment {
         return seleccionado;
     }
 
-    private void quitaSelecciones() {
-        for (Usuario u : usuarios) {
-            u.setSeleccionado(false);
-        }
-    }
 }
