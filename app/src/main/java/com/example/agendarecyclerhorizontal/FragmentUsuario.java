@@ -76,10 +76,12 @@ public class FragmentUsuario extends Fragment {
         final View view = inflater.inflate(R.layout.usuarios_recycler, container, false);
 
         FloatingActionButton fab = view.findViewById(R.id.FAB);
+        actionModeCallback = new ActionModeCallback(mainActivity);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                actionModeCallback.onDestroyActionMode(actionMode); // quitar el menu de la toolbar antes de abrir este fragment
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.fragmentContainer, new FragmentAddUsuario());
@@ -87,9 +89,8 @@ public class FragmentUsuario extends Fragment {
                 fragmentTransaction.commit();
             }
         });
-        actionModeCallback = new ActionModeCallback(mainActivity);
 
-        actionMode = null;
+//        actionMode = null;
 
         listAdapter = new ListAdapter(usuarios, view.getContext(), vistaGrid);
         recyclerView = view.findViewById(R.id.listRecyclerView);

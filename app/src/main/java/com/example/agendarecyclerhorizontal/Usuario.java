@@ -35,7 +35,7 @@ public class Usuario {
     }
 
     public Usuario() {
-        this.id = -1;
+        this.id = 0;
         this.nombre = "";
         this.apellido = "";
         this.email = "";

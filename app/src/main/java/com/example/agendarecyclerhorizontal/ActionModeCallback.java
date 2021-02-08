@@ -38,16 +38,17 @@ class ActionModeCallback implements ActionMode.Callback {
                 for (int i : usuariosSeleccionados) MainActivity.daoUsuario.eliminaRegistro(FragmentUsuario.usuarios.get(i).getId());
 
                 FragmentUsuario.listAdapter.eliminarItemsSeleccionados(FragmentUsuario.listAdapter.getSelectedItems());
+                onDestroyActionMode(mode);
                 return true;
             case R.id.cancelar:
                 FragmentUsuario.listAdapter.desactivarSeleccion();
+                onDestroyActionMode(mode);
                 return true;
             case R.id.posicionar:
                 Snackbar.make(mainActivity.getWindow().getDecorView().getRootView(), "Está por implementar...", Snackbar.LENGTH_LONG).show();
                 break;
         }
-        mode.finish();
-        mode = null;
+
         return false;
     }
     @Override
@@ -55,6 +56,7 @@ class ActionModeCallback implements ActionMode.Callback {
         listAdapter.clearSelection();
         listAdapter.desactivarSeleccion();
         MainActivity.fragmentUsuario.actionMode = null;
+        mode.finish();
         mode = null;
     }
 }

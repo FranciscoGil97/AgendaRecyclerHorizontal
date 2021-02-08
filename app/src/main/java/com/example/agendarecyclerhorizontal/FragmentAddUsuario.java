@@ -41,8 +41,6 @@ public class FragmentAddUsuario extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         Usuario u=new Usuario();
 
-        int id=MainActivity.daoUsuario.maxId();
-        u.setId(id);
         u.setNombre(nombreEditText.getText().toString());
         u.setApellido(apellidoEditText.getText().toString());
         u.setEmail(emailEditText.getText().toString());

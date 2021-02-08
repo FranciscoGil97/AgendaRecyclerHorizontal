@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,6 +38,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         rellenaArrayList(cursor);
         FragmentUsuario.listAdapter.setData(usuarios);
         FragmentUsuario.listAdapter.notifyDataSetChanged();
-//        FragmentUsuario.usuarios = usuarios;
+        FragmentUsuario.usuarios = usuarios;
         return true;
     }
 
@@ -159,7 +161,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivityForResult(camaraIntent, 1);
                 break;
             case R.id.abrirGaleria:
-                Toast.makeText(this, "Por implementar.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 2);
                 break;
             case R.id.borrarFoto:
                 deleteImage();
@@ -177,25 +182,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1)
-            if (resultCode == Activity.RESULT_OK) {
-                byte[] imagen = convertBitmaoToByteArray((Bitmap) data.getExtras().get("data"));
+        switch (requestCode) {
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+                    byte[] imagen = convertBitmaoToByteArray((Bitmap) data.getExtras().get("data"));
 
-                int itemSelected=FragmentUsuario.listAdapter.getItemSelected();
+                    int itemSelected = FragmentUsuario.listAdapter.getItemSelected();
 
-                Usuario u = FragmentUsuario.usuarios.get(itemSelected);
-                u.setImagen(imagen);
+                    Usuario u = FragmentUsuario.usuarios.get(itemSelected);
+                    u.setImagen(imagen);
 
-                daoUsuario.actualizaRegistro(u);
-                FragmentUsuario.listAdapter.notifyItemChanged(itemSelected);
-            }
+                    daoUsuario.actualizaRegistro(u);
+                    FragmentUsuario.listAdapter.notifyItemChanged(itemSelected);
+                }
+                break;
+            case 2:
+                if (requestCode == 2) {
+                    if (resultCode == Activity.RESULT_OK) {
+                        if (data != null) {
+                            try {
+                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                                bitmap=Bitmap.createScaledBitmap(bitmap, 170, 200, true);
+                                byte[] imagen = convertBitmaoToByteArray(bitmap);
+
+                                int itemSelected = FragmentUsuario.listAdapter.getItemSelected();
+
+                                Usuario u = FragmentUsuario.usuarios.get(itemSelected);
+                                u.setImagen(imagen);
+
+                                daoUsuario.actualizaRegistro(u);
+                                FragmentUsuario.listAdapter.notifyItemChanged(itemSelected);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+
+                break;
+        }
+
+
     }
 
-    private void deleteImage(){
+    private void deleteImage() {
         //Para eliminar la foto del contacto y que salga la imagen predeterminada
         //lo que hago es dejar vacio el campo imagen de la base de datos
 
-        int itemSelected=FragmentUsuario.listAdapter.getItemSelected();
+        int itemSelected = FragmentUsuario.listAdapter.getItemSelected();
 
         Usuario u = FragmentUsuario.usuarios.get(itemSelected);
         u.setImagen(new byte[0]);

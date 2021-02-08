@@ -70,6 +70,23 @@ public class DAOUsuario extends SQLiteOpenHelper {
     public void insertaUsuario(Usuario u) {
         conecta();
 
+        ContentValues values = rellenaContentValues(u);
+
+        db.insert(Utilidades.TABLE_USUARIOS, Utilidades.CAMPO_ID, values);
+
+        desconecta();
+    }
+
+    public void actualizaRegistro(Usuario u) {
+        conecta();
+        ContentValues values = rellenaContentValues(u);
+
+        db.update(Utilidades.TABLE_USUARIOS, values, Utilidades.CAMPO_ID + "=" + u.getId(), null);
+
+        desconecta();
+    }
+
+    private ContentValues rellenaContentValues(Usuario u) {
         ContentValues values = new ContentValues();
         values.put(Utilidades.CAMPO_ID, u.getId());
         values.put(Utilidades.CAMPO_NOMBRE, u.getNombre());
@@ -81,33 +98,13 @@ public class DAOUsuario extends SQLiteOpenHelper {
         values.put(Utilidades.CAMPO_TRABAJO, u.isTrabajo());
         values.put(Utilidades.CAMPO_IMAGEN, u.getImagen());
 
-        db.insert(Utilidades.TABLE_USUARIOS, Utilidades.CAMPO_ID, values);
-
-        desconecta();
-    }
-
-    public void actualizaRegistro(Usuario u) {
-        conecta();
-        ContentValues values = new ContentValues();
-        values.put(Utilidades.CAMPO_NOMBRE, u.getNombre());
-        values.put(Utilidades.CAMPO_APELLIDO, u.getApellido());
-        values.put(Utilidades.CAMPO_EMAIL, u.getEmail());
-        values.put(Utilidades.CAMPO_TELEFONO, u.getTelefono());
-        values.put(Utilidades.CAMPO_FAMILA, u.isFamilia());
-        values.put(Utilidades.CAMPO_AMIGO, u.isAmigo());
-        values.put(Utilidades.CAMPO_TRABAJO, u.isTrabajo());
-        values.put(Utilidades.CAMPO_IMAGEN, u.getImagen());
-
-        db.update(Utilidades.TABLE_USUARIOS, values, Utilidades.CAMPO_ID + "=" + u.getId(), null);
-
-        desconecta();
+        return values;
     }
 
     public void eliminaRegistro(int id) {
         conecta();
 
-        int registrosEliminados=db.delete(Utilidades.TABLE_USUARIOS, Utilidades.CAMPO_ID + "=" + id, null);
-        Toast.makeText(context, "Registros eliminados: "+registrosEliminados, Toast.LENGTH_SHORT).show();
+        int registrosEliminados = db.delete(Utilidades.TABLE_USUARIOS, Utilidades.CAMPO_ID + "=" + id, null);
         desconecta();
     }
 
@@ -121,22 +118,22 @@ public class DAOUsuario extends SQLiteOpenHelper {
         return existe;
     }
 
-    public Cursor getTipoContacto(String tipo){
+    public Cursor getTipoContacto(String tipo) {
         conecta();
 
-        return db.rawQuery("SELECT * FROM "+Utilidades.TABLE_USUARIOS+" WHERE "+tipo +" <> 0",null);
+        return db.rawQuery("SELECT * FROM " + Utilidades.TABLE_USUARIOS + " WHERE " + tipo + " <> 0", null);
     }
 
-    public int maxId(){
+    public int maxId() {
         conecta();
-        Cursor cursor=db.rawQuery("SELECT MAX("+Utilidades.CAMPO_ID+") FROM "+Utilidades.TABLE_USUARIOS,null);
-        int idMax=-1;
-        if(cursor.moveToNext()){
-            idMax=cursor.getInt(0);
+        Cursor cursor = db.rawQuery("SELECT MAX(" + Utilidades.CAMPO_ID + ") FROM " + Utilidades.TABLE_USUARIOS, null);
+        int idMax = -1;
+        if (cursor.moveToNext()) {
+            idMax = cursor.getInt(0);
         }
         desconecta();
-        if(idMax==-1)
-            idMax=1;
+        if (idMax == -1)
+            idMax = 1;
 
         return idMax;
     }
