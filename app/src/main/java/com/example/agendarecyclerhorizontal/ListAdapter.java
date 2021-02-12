@@ -1,12 +1,8 @@
 package com.example.agendarecyclerhorizontal;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -56,9 +52,11 @@ public class ListAdapter extends SeleccionableAdapter {
     public ListAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (vistaGrid) {
-            view = mInflater.inflate(R.layout.cardview_grid, parent, false);
-        } else
             view = mInflater.inflate(R.layout.cardview, parent, false);
+        } else{
+            view = mInflater.inflate(R.layout.cardview_grid, parent, false);
+        }
+
         return new ListAdapter.Holder(view);
     }
 
@@ -174,7 +172,8 @@ public class ListAdapter extends SeleccionableAdapter {
         }
 
         @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        public void onCreateContextMenu(ContextMenu menu, View v,
+                                        ContextMenu.ContextMenuInfo menuInfo) {
             itemSelected = getAdapterPosition();
             MenuInflater menuInflater = new MenuInflater(v.getContext());
             menuInflater.inflate(R.menu.menu_contextual_imagen, menu);

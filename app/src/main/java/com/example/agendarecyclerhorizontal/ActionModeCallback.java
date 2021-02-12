@@ -35,7 +35,7 @@ class ActionModeCallback implements ActionMode.Callback {
                 Collections.sort(usuariosSeleccionados);
                 Collections.reverse(usuariosSeleccionados);
 
-                for (int i : usuariosSeleccionados) MainActivity.daoUsuario.eliminaRegistro(FragmentUsuario.usuarios.get(i).getId());
+                for (int i : usuariosSeleccionados) FragmentUsuario.daoUsuario.eliminaRegistro(FragmentUsuario.usuarios.get(i).getId());
 
                 FragmentUsuario.listAdapter.eliminarItemsSeleccionados(FragmentUsuario.listAdapter.getSelectedItems());
                 onDestroyActionMode(mode);

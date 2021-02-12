@@ -12,11 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.agendarecyclerhorizontal.utilidades.DAOUsuario;
+
 public class FragmentAddUsuario extends Fragment implements View.OnClickListener {
 
     EditText nombreEditText,apellidoEditText, emailEditText, telefonoEditText;
     CheckBox familiaCheckBox, trabajoCheckBox, amigoCheckBox;
     Button addUsuarioButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -33,7 +36,6 @@ public class FragmentAddUsuario extends Fragment implements View.OnClickListener
 
         addUsuarioButton.setOnClickListener(this);
 
-
         return view;
     }
 
@@ -49,8 +51,8 @@ public class FragmentAddUsuario extends Fragment implements View.OnClickListener
         u.setFamilia(familiaCheckBox.isChecked());
         u.setAmigo(amigoCheckBox.isChecked());
 
-        MainActivity.daoUsuario.insertaUsuario(u);
-        MainActivity.usuarios.add(u);
+        FragmentUsuario.daoUsuario.insertaUsuario(u);
+        FragmentUsuario.usuarios.add(u);
 
         FragmentUsuario.listAdapter.notifyDataSetChanged();
         getActivity().onBackPressed();

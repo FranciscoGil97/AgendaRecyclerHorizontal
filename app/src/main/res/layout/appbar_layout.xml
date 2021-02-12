@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Agenda">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="250dp"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/cambiarVistaBoton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/menu"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -21,8 +21,8 @@ public class Usuario {
     private boolean amigo;
     private byte[] imagen;
 
-    public Usuario(int id, String nombre, String apellido, String email, String telefono, boolean seleccionado, boolean familia, boolean trabajo, boolean amigo) {
-        this.id = id;
+    public Usuario( String nombre, String apellido, String email, String telefono, boolean seleccionado, boolean familia, boolean trabajo, boolean amigo) {
+        this.id = 0;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
@@ -127,13 +127,13 @@ public class Usuario {
     }
 
     public static void getSamples(ArrayList<Usuario> elements) {
-        elements.add(new Usuario(1, "Adrian", "Gonzalez", "665200454", "adriangonzalez@gmail.com",false,false,false,false));
-        elements.add(new Usuario(2, "Alberto", "Garcia", "665000000", "albertogarcia@gmail.com",false,false,false,false));
-        elements.add(new Usuario(3, "Alejandro", "Llinares", "661000111", "alejandrollinares@gmail.com",false,false,false,false));
-        elements.add(new Usuario(4, "Carlos", "Marin", "665777222", "carlosMarin@gmail.com",false,false,false,false));
-        elements.add(new Usuario(5, "Roberto", "Morantes", "966919395", "robertomorantes@gmail.com",false,false,false,false));
-        elements.add(new Usuario(6, "Jesus", "Gil", "123456789", "jesusgil@gmail.com",false,false,false,false));
-        elements.add(new Usuario(7, "Ana", "Amador", "665200454", "anaamador@gmail.com",false,false,false,false));
+        elements.add(new Usuario("Adrian", "Gonzalez", "665200454", "adriangonzalez@gmail.com",false,false,false,false));
+        elements.add(new Usuario("Alberto", "Garcia", "665000000", "albertogarcia@gmail.com",false,false,false,false));
+        elements.add(new Usuario("Alejandro", "Llinares", "661000111", "alejandrollinares@gmail.com",false,false,false,false));
+        elements.add(new Usuario("Carlos", "Marin", "665777222", "carlosMarin@gmail.com",false,false,false,false));
+        elements.add(new Usuario("Roberto", "Morantes", "966919395", "robertomorantes@gmail.com",false,false,false,false));
+        elements.add(new Usuario("Jesus", "Gil", "123456789", "jesusgil@gmail.com",false,false,false,false));
+        elements.add(new Usuario( "Ana", "Amador", "665200454", "anaamador@gmail.com",false,false,false,false));
     }
 
     public void copyTo(Usuario usuario) {

@@ -52,15 +52,6 @@ tools:openDrawer="start">
             app:layout_constraintLeft_toRightOf="@id/listaContactosFragment"
             app:layout_constraintTop_toBottomOf="@id/coordinator"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-<com.google.android.material.navigation.NavigationView
-    android:id="@+id/navigationView"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    app:headerLayout="@layout/imagen_dialogo"
-    android:layout_gravity="left"
-    app:menu="@menu/menu_lateral"
-    android:fitsSystemWindows="true">
 
-</com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

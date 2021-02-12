@@ -5,18 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 
-import com.example.agendarecyclerhorizontal.R;
 import com.example.agendarecyclerhorizontal.Usuario;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class DAOUsuario extends SQLiteOpenHelper {
@@ -24,7 +17,10 @@ public class DAOUsuario extends SQLiteOpenHelper {
     private SQLiteDatabase db = null;
     ArrayList<Usuario> usuarios = new ArrayList<>();
 
-    public DAOUsuario(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public DAOUsuario(@Nullable Context context,
+                      @Nullable String name,
+                      @Nullable SQLiteDatabase.CursorFactory factory,
+                      int version) {
         super(context, name, factory, version);
         this.context = context;
     }
@@ -88,7 +84,6 @@ public class DAOUsuario extends SQLiteOpenHelper {
 
     private ContentValues rellenaContentValues(Usuario u) {
         ContentValues values = new ContentValues();
-        values.put(Utilidades.CAMPO_ID, u.getId());
         values.put(Utilidades.CAMPO_NOMBRE, u.getNombre());
         values.put(Utilidades.CAMPO_APELLIDO, u.getApellido());
         values.put(Utilidades.CAMPO_EMAIL, u.getEmail());
@@ -104,14 +99,16 @@ public class DAOUsuario extends SQLiteOpenHelper {
     public void eliminaRegistro(int id) {
         conecta();
 
-        int registrosEliminados = db.delete(Utilidades.TABLE_USUARIOS, Utilidades.CAMPO_ID + "=" + id, null);
+        db.delete(Utilidades.TABLE_USUARIOS,
+                Utilidades.CAMPO_ID + "=" + id, null);
         desconecta();
     }
 
     public boolean existeUsuario(int id) {
         conecta();
         boolean existe;
-        Cursor cursor = db.rawQuery("SELECT * FROM " + Utilidades.TABLE_USUARIOS + " WHERE " + Utilidades.CAMPO_ID + "=" + id, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Utilidades.TABLE_USUARIOS + " WHERE "
+                                        + Utilidades.CAMPO_ID + "=" + id, null);
         existe = cursor.getCount() > 0;
         cursor.close();
         desconecta();
@@ -120,21 +117,7 @@ public class DAOUsuario extends SQLiteOpenHelper {
 
     public Cursor getTipoContacto(String tipo) {
         conecta();
-
-        return db.rawQuery("SELECT * FROM " + Utilidades.TABLE_USUARIOS + " WHERE " + tipo + " <> 0", null);
-    }
-
-    public int maxId() {
-        conecta();
-        Cursor cursor = db.rawQuery("SELECT MAX(" + Utilidades.CAMPO_ID + ") FROM " + Utilidades.TABLE_USUARIOS, null);
-        int idMax = -1;
-        if (cursor.moveToNext()) {
-            idMax = cursor.getInt(0);
-        }
-        desconecta();
-        if (idMax == -1)
-            idMax = 1;
-
-        return idMax;
+        return db.rawQuery("SELECT * FROM " + Utilidades.TABLE_USUARIOS +
+                        " WHERE " + tipo + " <> 0", null);
     }
 }
